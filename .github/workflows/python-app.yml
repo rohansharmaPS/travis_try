@@ -43,6 +43,6 @@ jobs:
           args: |
             bash -c
             "apt-get update &&
-            apt-get install -y python3.6 &&
-            python3.6 --version &&
-            python3.6 -c\"import platform; print(platform.machine())\""
+            apt-get install -y python3.8 &&
+            python3.8 --version &&
+            python3.8 -c \"import platform; print(platform.machine())\""
