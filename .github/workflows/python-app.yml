@@ -26,17 +26,7 @@ jobs:
   
   test-arm64:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        python-version:
-          - cp37-cp37m
-          - cp38-cp38
-        build-type:
-          - "cext"
-          - "nocext"
-
-      fail-fast: false
-
+    name: Test on ARM64
     steps:
       - name: Checkout repo
         uses: actions/checkout@v2
@@ -48,6 +38,7 @@ jobs:
         uses: docker://multiarch/ubuntu-core:arm64-focal
         with:
           args: |
-            bash -c "
+            bash -c "apt-get update &&
+            apt-get install -y python3.8 &&
             python pr1.py
             "
