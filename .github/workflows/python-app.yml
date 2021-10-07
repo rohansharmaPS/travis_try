@@ -34,12 +34,15 @@ jobs:
       - name: Set up emulation
         run: |
           docker run --rm --privileged multiarch/qemu-user-static --reset -p yes
-      - name: Run tests
+      - uses: docker://multiarch/ubuntu-core:arm64-bionic
+        with:
+          args: 'uname -a'
+      - name: Test ARM64
         uses: docker://multiarch/ubuntu-core:arm64-focal
         with:
           args: |
-            bash -c "apt-get update &&
-            apt-get install -y python3.8 &&
-            export PATH=/usr/local/bin/python:/usr/bin/python:usr/lib/python:$PATH &&
-            python pr1.py
-            "
+            bash -c
+            "apt-get update &&
+            apt-get install -y python3.6 &&
+            python3.6 --version &&
+            python3.6 -c\"import platform; print(platform.machine())\""
