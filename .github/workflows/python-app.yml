@@ -9,14 +9,8 @@ on:
     - main
 
 jobs:
-  build-linux:
-    name: Linux
-    strategy: 
-      matrix:
-        arch: [aarch64, x86_64]
-
+  build:
     runs-on: ubuntu-latest
-
     steps:
     - name: checkout repo content
       uses: actions/checkout@v2
@@ -29,3 +23,36 @@ jobs:
         python-version: 3.8
     - name: execute py script
       run: python pr1.py
+  
+  test-arm64:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version:
+          - cp35-cp35m
+          - cp36-cp36m
+          - cp37-cp37m
+          - cp38-cp38
+        build-type:
+          - "cext"
+          - "nocext"
+
+      fail-fast: false
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v2
+
+      - name: Set up emulation
+        run: |
+          docker run --rm --privileged multiarch/qemu-user-static --reset -p yes
+      - name: Run tests
+        uses: docker://quay.io/pypa/manylinux2014_aarch64
+        with:
+          args: |
+            bash -c "
+            export PATH=/opt/python/${{ matrix.python-version }}/bin:$PATH &&
+            python --version &&
+            python -m pip install --upgrade pip &&
+            python pr1.py
+            "
