@@ -34,8 +34,9 @@ jobs:
       - name: Set up emulation
         run: |
           docker run --rm --privileged multiarch/qemu-user-static --reset -p yes
+      
       - name: Print Architecture
-        uses: docker://multiarch/ubuntu-core:arm64-bionic
+        uses: docker://multiarch/ubuntu-core:arm64-focal
         with:
           args: 'uname -a'
       
@@ -46,5 +47,5 @@ jobs:
             bash -c
             "apt-get update &&
             apt-get install -y python3.8 &&
-            python3.8 --version
+            python3.8 pr1.py
             "
