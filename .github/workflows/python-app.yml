@@ -40,6 +40,6 @@ jobs:
           args: |
             bash -c "apt-get update &&
             apt-get install -y python3.8 &&
-            export PATH=/usr/local/bin/python:$PATH &&
+            export PATH=/usr/local/bin/python:/usr/bin/python:usr/lib/python:$PATH &&
             python pr1.py
             "
